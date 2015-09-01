@@ -31,4 +31,5 @@ for pkg in `cat ~/packages.list`; do
         dpkg-buildpackage -uc -us -Jauto 2>&1 || echo $pkg >> ~/failed
         mv ~/pkg/*.deb ~/pkgs
         rm -rf ~/pkg/.* ~/pkg/*
-done
+
+done | perl -pe 'print scalar(localtime()), ": ";'
