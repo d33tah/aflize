@@ -1,22 +1,9 @@
 #!/bin/bash
 
-##############################################################################
 # Prepares a directory with Debian packages compiled in a form ready for
-# fuzzing with american fuzzy lop.
-#
-# Tested with debian:sid docker image - just run a shell session there,
-# cat > ~/do.sh, copy the file and press CTR+D, then chmod +x ~/do.sh and
-# call ~/do.sh. To get a date-stamped build log, run:
-#
-# ~/do.sh | perl -pe '$s = `date`; chomp $s; print "$s: "' | stdbuf -o 0 tee /dev/stderr >> log
-#
-# The built packages will be in ~/pkgs directory. List of packages is read
-# from the ~/packages.list file in one-name-per-line form with no additional
-# information allowed. The list of packages that failed to build are in
-# ~/failed file.
+# fuzzing with american fuzzy lop. See README.md for more details.
 #
 # AUTHOR: Jacek "d33tah" Wielemborek, licensed under WTFPL.
-##############################################################################
 
 # If there's no packages.list file, assume we build all currently installed
 # packages. This way we can easily get the base system ready.
