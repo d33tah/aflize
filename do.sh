@@ -23,24 +23,6 @@
 
 [ -f ~/packages.list ] || dpkg -l | tail -n +6 | awk '{ print $2 }' > ~/packages.list
 
-# Try to speed up package downloading by not fetching suggested and
-# recommended ones. Actually, I'm not fully sure if it's a good idea
-# not to download them.
-echo 'APT::Install-Suggests "0";' > /etc/apt/apt.conf.d/no-suggests
-echo 'APT::Install-Recommends "0";' > /etc/apt/apt.conf.d/no-recommends
-
-# Make sure we have a deb-src repository source.
-function add_src() {
-        echo 'deb-src http://httpredir.debian.org/debian sid main' \
-            >> /etc/apt/sources.list
-        apt-get update 2>&1
-}
-grep deb-src /etc/apt/sources.list || add_src
-
-apt-get -y install afl 2>&1
-
-mkdir ~/pkg ~/pkgs
-
 export CC="afl-gcc -fsanitize=address"
 export CXX="afl-g++ -fsanitize=address"
 export DEB_BUILD_OPTIONS=nocheck
