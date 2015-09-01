@@ -20,6 +20,7 @@ mkdir ~/pkg ~/pkgs
 export CC="afl-gcc -fsanitize=address"
 export CXX="afl-g++ -fsanitize=address"
 export DEB_BUILD_OPTIONS=nocheck
+export AFL_HARDEN=1
 
 for pkg in `cat ~/packages.list`; do
 
