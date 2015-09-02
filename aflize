@@ -25,6 +25,10 @@ export AFL_HARDEN=1
 export FORCE_UNSAFE_CONFIGURE=1  # for coreutils root build check.
 export ASAN_OPTIONS=detect_leaks=0  # we don't need leak checks while building
 
+# In case of e.g. gimp, dpkg-gensymbols complains after having detected new
+# symbols introduced by AFL. Let's disable the check.
+export DPKG_GENSYMBOLS_CHECK_LEVEL=0
+
 if [ "$#" = "0" ]; then
 
         if [ ! -f ~/packages.list ]; then
