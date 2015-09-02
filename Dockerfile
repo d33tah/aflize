@@ -1,5 +1,5 @@
 FROM debian:sid
-ADD ./aflize /usr/bin
+ADD ./aflize /usr/bin/aflize
 
 # If you'd like to specify a list of packages to be built, uncomment the
 # following line by removing the # symbol at its beginning:
