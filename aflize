@@ -43,8 +43,11 @@ for pkg in $PKGS; do
         # There's no point building coreutils multiple times just because we
         # need mount, libmount1 and libmount1-dev, for example.
         if [ -f ~/pkgs/${pkg}_* ]; then
+            echo "Skipping $pkg because it's already in ~/pkgs."
             continue
         fi
+
+        echo "Aflizing $pkg"
 
         cd ~/pkg
         apt-get build-dep -y $pkg 2>&1
