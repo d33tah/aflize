@@ -39,6 +39,8 @@ fi
 
 for pkg in $PKGS; do
 
+        rm -rf ~/pkg/.* ~/pkg/*
+
         # Building some source packages results in more than one .deb file.
         # There's no point building coreutils multiple times just because we
         # need mount, libmount1 and libmount1-dev, for example.
@@ -55,6 +57,5 @@ for pkg in $PKGS; do
         cd *
         dpkg-buildpackage -uc -us -Jauto 2>&1 || echo $pkg >> ~/failed
         mv ~/pkg/*.deb ~/pkgs
-        rm -rf ~/pkg/.* ~/pkg/*
 
 done | perl -pe '$|=1; print scalar(localtime()), ": ";'
