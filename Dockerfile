@@ -9,7 +9,7 @@ ADD ./aflize /usr/bin/aflize
 RUN echo 'APT::Install-Suggests "0";' > /etc/apt/apt.conf.d/no-suggests
 RUN echo 'APT::Install-Recommends "0";' > /etc/apt/apt.conf.d/no-recommends
 RUN echo 'deb-src http://httpredir.debian.org/debian sid main' >> /etc/apt/sources.list
-RUN apt-get update && apt-get install afl
+RUN apt-get update && apt-get install afl gcc g++ -y
 
 # Make sure afl-gcc will be run. This forces us to set AFL_CC and AFL_CXX or
 # otherwise afl-gcc will be trying to call itself by calling gcc.
