@@ -10,6 +10,11 @@
 export CC="afl-gcc -fsanitize=address"
 export CXX="afl-g++ -fsanitize=address"
 
+# We overwrote /usr/bin/gcc, so we need to specify AFL_CC to avoid afl-gcc
+# calling itself.
+export AFL_CC="gcc-5"
+export AFL_CXX="gcc-5"
+
 # NOTE: we're skipping tests to speed things up.
 export DEB_BUILD_OPTIONS=nocheck
 
