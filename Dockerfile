@@ -20,4 +20,4 @@ RUN rm /usr/bin/x86_64-linux-gnu-gcc && cp /usr/bin/afl-gcc /usr/bin/x86_64-linu
 RUN rm /usr/bin/x86_64-linux-gnu-g++ && cp /usr/bin/afl-g++ /usr/bin/x86_64-linux-gnu-g++
 
 RUN mkdir ~/pkg ~/pkgs
-CMD [ "aflsize" ]
+CMD [ "aflize" ]
