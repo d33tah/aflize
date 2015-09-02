@@ -5,17 +5,24 @@
 #
 # AUTHOR: Jacek "d33tah" Wielemborek, licensed under WTFPL.
 
-# If there's no packages.list file, assume we build all currently installed
-# packages. This way we can easily get the base system ready.
-
-[ -f ~/packages.list ] || dpkg -l | tail -n +6 | awk '{ print $2 }' > ~/packages.list
-
 export CC="afl-gcc -fsanitize=address"
 export CXX="afl-g++ -fsanitize=address"
 export DEB_BUILD_OPTIONS=nocheck
 export AFL_HARDEN=1
 
-for pkg in `cat ~/packages.list`; do
+if [ "$#" = "0" ]; then
+
+        if [ ! -f ~/packages.list ]; then
+            # We skip the first 6 lines because of a quite lengthy header.
+            dpkg -l | tail -n +6 | awk '{ print $2 }' > ~/packages.list
+        fi
+
+        PKGS=`cat ~/packages.list`
+else
+        PKGS=$@
+fi
+
+for pkg in $PKGS; do
 
         # Building some source packages results in more than one .deb file.
         # There's no point building coreutils multiple times just because we

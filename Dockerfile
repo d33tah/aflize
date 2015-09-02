@@ -1,5 +1,5 @@
 FROM debian:sid
-ADD ./do.sh /root/
+ADD ./aflize /usr/bin
 
 # If you'd like to specify a list of packages to be built, uncomment the
 # following line by removing the # symbol at its beginning:
@@ -11,4 +11,4 @@ RUN echo 'APT::Install-Recommends "0";' > /etc/apt/apt.conf.d/no-recommends
 RUN echo 'deb-src http://httpredir.debian.org/debian sid main' >> /etc/apt/sources.list
 RUN apt-get update && apt-get install afl
 RUN mkdir ~/pkg ~/pkgs
-CMD [ "/root/do.sh" ]
+CMD [ "aflsize" ]
