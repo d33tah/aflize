@@ -19,5 +19,5 @@ RUN rm /usr/bin/g++ && cp /usr/bin/afl-g++ /usr/bin/g++
 RUN rm /usr/bin/x86_64-linux-gnu-gcc && cp /usr/bin/afl-gcc /usr/bin/x86_64-linux-gnu-gcc
 RUN rm /usr/bin/x86_64-linux-gnu-g++ && cp /usr/bin/afl-g++ /usr/bin/x86_64-linux-gnu-g++
 
-RUN mkdir ~/pkg ~/pkgs
+RUN mkdir ~/pkg ~/pkgs ~/logs
 CMD [ "aflize" ]

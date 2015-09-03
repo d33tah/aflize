@@ -59,7 +59,10 @@ for pkg in $PKGS; do
         apt-get build-dep -y $pkg 2>&1
         apt-get source $pkg 2>&1
         cd *
-        dpkg-buildpackage -uc -us -Jauto 2>&1 || echo $pkg >> ~/failed
+
+        ( dpkg-buildpackage -uc -us -Jauto 2>&1 | \
+            tee ~/logs/${pkg}.txt ) || echo $pkg >> ~/failed
+
         mv ~/pkg/*.deb ~/pkgs
 
 done | perl -pe '$|=1; print scalar(localtime()), ": ";'
