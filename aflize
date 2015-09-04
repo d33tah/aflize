@@ -5,29 +5,7 @@
 #
 # AUTHOR: Jacek "d33tah" Wielemborek, licensed under WTFPL.
 
-# TODO: use CFLAGS and CXXFLAGS for -fsanitize=address; some build targets
-# complain when a space is in $CC.
-export CC="afl-gcc -fsanitize=address"
-export CXX="afl-g++ -fsanitize=address"
-
-# We overwrote /usr/bin/gcc, so we need to specify AFL_CC to avoid afl-gcc
-# calling itself.
-export AFL_CC="gcc-5"
-export AFL_CXX="gcc-5"
-
-# NOTE: we're skipping tests to speed things up.
-export DEB_BUILD_OPTIONS=nocheck
-
-# No idea if it's actually necessary if we have ASAN - if you have an opinion,
-# let me know.
-export AFL_HARDEN=1
-
-export FORCE_UNSAFE_CONFIGURE=1  # for coreutils root build check.
-export ASAN_OPTIONS=detect_leaks=0  # we don't need leak checks while building
-
-# In case of e.g. gimp, dpkg-gensymbols complains after having detected new
-# symbols introduced by AFL. Let's disable the check.
-export DPKG_GENSYMBOLS_CHECK_LEVEL=0
+. /etc/profile.d/afl-sh-profile
 
 if [ "$#" = "0" ]; then
 
