@@ -1,17 +1,13 @@
 #!/bin/sh
 
-# TODO: use CFLAGS and CXXFLAGS for -fsanitize=address; some build targets
-# complain when a space is in $CC.
-export CC="afl-gcc -fsanitize=address"
-export CXX="afl-g++ -fsanitize=address"
-
-# We overwrote /usr/bin/gcc, so we need to specify AFL_CC to avoid afl-gcc
-# calling itself.
-export AFL_CC="gcc-5"
-export AFL_CXX="gcc-5"
+export CC=afl-gcc
+export CXX=afl-g++
 
 # NOTE: we're skipping tests to speed things up.
 export DEB_BUILD_OPTIONS=nocheck
+
+# Use ASAN - Address SANitizer. This will crash on subtle memory errors.
+AFL_USE_ASAN=1
 
 # No idea if it's actually necessary if we have ASAN - if you have an opinion,
 # let me know.
@@ -23,3 +19,8 @@ export ASAN_OPTIONS=detect_leaks=0  # we don't need leak checks while building
 # In case of e.g. gimp, dpkg-gensymbols complains after having detected new
 # symbols introduced by AFL. Let's disable the check.
 export DPKG_GENSYMBOLS_CHECK_LEVEL=0
+
+# We overwrote /usr/bin/gcc, so we need to specify AFL_CC to avoid afl-gcc
+# calling itself.
+#
+# NOTE: This is generated in Dockerfile.
