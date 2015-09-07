@@ -15,9 +15,9 @@ RUN wget 'http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz' -O- | tar zxvf
 
 # Make sure afl-gcc will be run. This forces us to set AFL_CC and AFL_CXX or
 # otherwise afl-gcc will be trying to call itself by calling gcc.
+ADD ./afl-sh-profile /etc/profile.d/afl-sh-profile
 ADD ./setup-afl_cc /usr/bin/setup-afl_cc
 RUN setup-afl_cc
-ADD ./afl-sh-profile /etc/profile.d/afl-sh-profile
 
 RUN mkdir ~/pkg ~/pkgs ~/logs
 CMD [ "aflize" ]
