@@ -3,8 +3,8 @@
 # Make sure afl-gcc will be run. This forces us to set AFL_CC and AFL_CXX or
 # otherwise afl-gcc will be trying to call itself by calling gcc.
 
-echo "AFL_CC=`readlink $( readlink /etc/alternatives/cc) `" >> /etc/profile.d/afl-sh-profile
-echo "AFL_CXX=`readlink $( readlink /etc/alternatives/c++) `" >> /etc/profile.d/afl-sh-profile
+echo "export AFL_CC=`readlink $( readlink /etc/alternatives/cc) `" >> /etc/profile.d/afl-sh-profile
+echo "export AFL_CXX=`readlink $( readlink /etc/alternatives/c++) `" >> /etc/profile.d/afl-sh-profile
 
 rm /usr/bin/cc && cp /usr/bin/afl-gcc /usr/bin/cc
 rm /usr/bin/gcc && cp /usr/bin/afl-gcc /usr/bin/gcc
