@@ -21,4 +21,9 @@ ADD ./setup-afl_cc /usr/bin/setup-afl_cc
 RUN setup-afl_cc
 
 RUN mkdir ~/pkg ~/pkgs ~/logs
+
+RUN mkdir ~/fuzz-results ~/pkgs-coverage
+RUN apt-get install lcov -y
+ADD ./testcases /root/testcases
+ADD ./fuzz-pkg.sh /root/
 CMD [ "aflize" ]

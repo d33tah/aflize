@@ -11,8 +11,8 @@ USAGE
 Run the following commands:
 
 ```
-sudo docker build -t "d33tah/afl-sid" .
-sudo docker run --name="afl-sid-container" d33tah/afl-sid | tee log.txt
+sudo docker build -t "d33tah/afl-sid-coverage" .
+sudo docker run --name="afl-sid-container" d33tah/afl-sid-coverage /root/fuzz-pkg.sh bison
 sudo docker pull afl-sid-container:/root/pkgs .
 sudo chown -R $USER pkgs
 sudo docker rm afl-sid-container
