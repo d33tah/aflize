@@ -19,6 +19,8 @@ else
         PKGS=$@
 fi
 
+apt-get update
+
 for pkg in $PKGS; do
 
         rm -rf ~/pkg/.* ~/pkg/*
