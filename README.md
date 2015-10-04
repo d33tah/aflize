@@ -24,3 +24,12 @@ installed, so you can jump from idea to fuzzing in just a few minutes. In the
 video linked below you can see how simple it can become:
 
 [![Video](https://i.imgur.com/SJ9S66e.png)](https://asciinema.org/a/26623)
+
+Building
+========
+
+If you prefer to build the project manually, just call:
+
+    docker build -t d33tah/afl-sid .
+
+After that, you can use the `docker run` command as described above.
