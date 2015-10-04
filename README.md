@@ -23,4 +23,4 @@ binary in isolation from your host operating system. afl-fuzz is already
 installed, so you can jump from idea to fuzzing in just a few minutes. In the
 video linked below you can see how simple it can become:
 
-[![Video](https://i.imgur.com/DAtoRPt.png)](https://asciinema.org/a/26623)
+[![Video](https://i.imgur.com/SJ9S66e.png)](https://asciinema.org/a/26623)
