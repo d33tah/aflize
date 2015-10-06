@@ -26,5 +26,7 @@ RUN chmod +x /etc/profile.d/afl-sh-profile
 ADD ./setup-afl_cc /usr/bin/setup-afl_cc
 RUN setup-afl_cc
 
+ADD ./afl-fuzz-parallel /usr/bin/
+
 RUN mkdir ~/pkg ~/pkgs ~/logs
 CMD [ "aflize" ]

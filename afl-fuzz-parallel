@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# A trivial script that just runs multiple instances of afl-fuzz in the
+# background (as many as # the number of CPUs). Then it starts a master process
+# that actually displays the stats. Once you kill the master process (for
+# example) using CTR+C, the remaining processes are killed as well.
+#
+# USAGE: just like afl-fuzz
+#
+# AUTHOR: Jacek "d33tah" Wielemborek, licensed under WTFPL.
+
+
+for i in `seq 2 $(nproc)`; do
+    afl-fuzz -S $RANDOM $@ >/dev/null 2>&1 &
+done
+afl-fuzz -M master $@
+pkill afl-fuzz
