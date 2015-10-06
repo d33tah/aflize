@@ -28,5 +28,8 @@ RUN setup-afl_cc
 
 ADD ./afl-fuzz-parallel /usr/bin/
 
+ADD ./install-preeny.sh /tmp/
+RUN /tmp/install-preeny.sh
+
 RUN mkdir ~/pkg ~/pkgs ~/logs
 CMD [ "aflize" ]
