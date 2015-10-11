@@ -25,6 +25,28 @@ video linked below you can see how simple it can become:
 
 [![Video](https://i.imgur.com/SJ9S66e.png)](https://asciinema.org/a/26623?autoplay=1)
 
+Notes
+=====
+
+1. After having generated a package by `aflize`, you need to install it. You
+   can run `dpkg -i ~/pkgs/*.deb` for that. If dpkg complains about missing
+   dependencies, you can fetch them quickly by calling `apt-get -f install -y`.
+2. Some software is represented by metapackages that point to specific versions
+   of a program. For example, if you want to build Python", you should rather
+   aflize python3.5 ("python3" might not be specific enough either).
+3. If you're running out of disk space or plan to build a big package, keep
+   in mind that by default Docker allocates 10 GiB per container. Read up on
+   how to increase this value if you plan to build, say, libreoffice.
+4. Some packages won't build and this can often be a bug that should be
+   reported to the Debian package maintainers. If the "aflize" failed while
+   performing post-build tests, you can still use the resulting binary. Look
+   for it in /root/pkg directory. You can also apply patches at this stage and
+   try just running "make". Sometimes it's that easy.
+5. If you built a big package, consider submitting it to afl-sid-repo:
+   https://github.com/d33tah/afl-sid-repo. If you're about to build a big
+   package but don't feel like waiting for the process to complete, check this
+   repository out.
+
 Building
 ========
 
@@ -33,3 +55,13 @@ If you prefer to build the project manually, just call:
     docker build -t d33tah/afl-sid .
 
 After that, you can use the `docker run` command as described above.
+
+Bugs, problems, discussion
+==========================
+
+If you're looking for more information, take a look at the issue tracker here:
+
+https://github.com/d33tah/afl-sid-repo/issues
+
+Feel invited to create issues for anything related to your project that comes
+to your mind.
