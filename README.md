@@ -1,11 +1,12 @@
 afl-sid
 =======
 
-afl-sid makes [fuzz testing](htts://en.wikipedia.org/wiki/fuzz_testing) easier
-by automating the process of rebuilding software with a custom compiler. The
-tool downloads all the required build dependencies and then instruments the
-binary for [american fuzzy lop](http://lcamtuf.coredump.cx/afl/) support. This
-is as easy as running two commands:
+afl-sid (also referred to as "aflize") makes it easier to perform
+[fuzz testing](htts://en.wikipedia.org/wiki/fuzz_testing) by automating the
+process of rebuilding software with a custom compiler. The tool downloads all
+the required build dependencies and then instruments the binary for
+[american fuzzy lop](http://lcamtuf.coredump.cx/afl/) support. This is as easy
+as running two commands:
 
     docker run -ti d33tah/afl-sid bash
     aflize bison
