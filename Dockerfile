@@ -39,4 +39,4 @@ RUN apt-get update && apt-get install apt-file -y && apt-file update
 RUN mkdir ~/fuzz-results ~/pkgs-coverage
 RUN apt-get install lcov -y
 ADD ./testcases /root/testcases
-ADD ./fuzz-pkg.sh /root/
+ADD ./fuzz-pkg-with-coverage.sh /root/
