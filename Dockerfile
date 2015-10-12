@@ -35,5 +35,3 @@ RUN mkdir ~/pkg ~/pkgs ~/logs
 
 # This isn't really necessary, but it'd be a real convenience for me.
 RUN apt-get update && apt-get install apt-file -y && apt-file update
-
-CMD [ "aflize" ]
