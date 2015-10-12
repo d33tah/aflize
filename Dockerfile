@@ -35,3 +35,8 @@ RUN mkdir ~/pkg ~/pkgs ~/logs
 
 # This isn't really necessary, but it'd be a real convenience for me.
 RUN apt-get update && apt-get install apt-file -y && apt-file update
+
+RUN mkdir ~/fuzz-results ~/pkgs-coverage
+RUN apt-get install lcov -y
+ADD ./testcases /root/testcases
+ADD ./fuzz-pkg.sh /root/
