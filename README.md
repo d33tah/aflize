@@ -29,6 +29,10 @@ video linked below you can see how simple it can become:
 Notes
 =====
 
+Below are a couple of random notes that were collected from afl-sid users.
+I have not tested all of them yet but you may nevertheless find them quite
+helpful.
+
 1. After having generated a package by `aflize`, you need to install it. You
    can run `dpkg -i ~/pkgs/*.deb` for that. If dpkg complains about missing
    dependencies, you can fetch them quickly by calling `apt-get -f install -y`.
