@@ -6,6 +6,9 @@ export CXX=afl-g++
 # NOTE: we're skipping tests to speed things up.
 export DEB_BUILD_OPTIONS=nocheck
 
+# Exit AFL if we hadn't seen any new paths for a long time.
+export AFL_EXIT_WHEN_DONE=1
+
 # Use ASAN - Address SANitizer. This will crash on subtle memory errors.
 AFL_USE_ASAN=1
 
