@@ -36,6 +36,10 @@ RUN mkdir ~/pkg ~/pkgs ~/logs
 # This isn't really necessary, but it'd be a real convenience for me.
 RUN apt-get update && apt-get install apt-file -y && apt-file update
 
+# install "exploitable" GDB script
+RUN apt-get update && apt-get install gdb python -y
+RUN wget -O- 'https://github.com/jfoote/exploitable/archive/master.tar.gz' | tar zxvf - && cd exploitable-master && python setup.py install
+
 RUN mkdir ~/fuzz-results ~/pkgs-coverage
 RUN apt-get install lcov -y
 ADD ./testcases /root/testcases
