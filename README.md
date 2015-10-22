@@ -26,6 +26,18 @@ video linked below you can see how simple it can become:
 
 [![Video](https://i.imgur.com/SJ9S66e.png)](https://asciinema.org/a/26623?autoplay=1)
 
+Call for support
+================
+
+Probably the biggest problem with aflize right now is that hardly anyone knows
+it. This is why if you're in touch with any open source developers, **tell them
+about it**! I will really be grateful if you spread the word mailing lists, IRC
+channels, forums and so on.
+
+That doesn't mean that other forms of help aren't welcome. I'll be happy to hear
+any feedback from you. If you know how to make this program better, [create a
+Github issue](https://github.com/d33tah/afl-sid-repo/issues). Thanks in advance!
+
 Notes
 =====
 
