@@ -44,3 +44,7 @@ RUN mkdir ~/fuzz-results ~/pkgs-coverage
 RUN apt-get install lcov -y
 ADD ./testcases /root/testcases
 ADD ./fuzz-pkg-with-coverage.sh /root/
+
+# Add some of the settings I find it hard to live without.
+RUN echo "alias ls='ls --color=auto'" >> /root/.bashrc
+RUN echo "syntax on" >> /root/.vimrc
