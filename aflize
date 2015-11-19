@@ -25,7 +25,8 @@ apt-get update
 
 for pkg in $PKGS; do
 
-        rm -rf ~/pkg/.* ~/pkg/*
+        rm -rf ~/pkg
+        mkdir ~/pkg
 
         # Building some source packages results in more than one .deb file.
         # There's no point building coreutils multiple times just because we
