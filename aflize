@@ -7,6 +7,8 @@
 
 . /etc/profile.d/afl-sh-profile
 
+set -e
+
 if [ "$#" = "0" ]; then
 
         if [ ! -f ~/packages.list ]; then
@@ -41,7 +43,7 @@ for pkg in $PKGS; do
         cd *
 
         ( dpkg-buildpackage -uc -us -Jauto 2>&1 | \
-            tee ~/logs/${pkg}.txt ) || echo $pkg >> ~/failed
+            tee ~/logs/${pkg}.txt ) || ( echo $pkg >> ~/failed; exit 1 )
 
         mv ~/pkg/*.deb ~/pkgs
 
