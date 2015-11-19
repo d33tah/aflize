@@ -2,8 +2,6 @@
 FROM debian:sid
 RUN echo 'deb-src http://httpredir.debian.org/debian sid main' >> /etc/apt/sources.list
 
-ADD ./aflize /usr/bin/aflize
-
 # If you'd like to specify a list of packages to be built, uncomment the
 # following line by removing the # symbol at its beginning:
 # ADD ./packages.list /root/
@@ -44,6 +42,7 @@ RUN mkdir ~/fuzz-results ~/pkgs-coverage
 RUN apt-get install lcov -y
 ADD ./testcases /root/testcases
 ADD ./fuzz-pkg-with-coverage.sh /root/
+ADD ./aflize /usr/bin/aflize
 
 # Add some of the settings I find it hard to live without.
 RUN echo "alias ls='ls --color=auto'" >> /root/.bashrc
