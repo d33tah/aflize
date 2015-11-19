@@ -39,7 +39,26 @@ for pkg in $PKGS; do
         echo "Aflizing $pkg"
 
         cd ~/pkg
-        apt-get build-dep -y $pkg 2>&1
+
+        ATTEMPTS_START=3
+        ATTEMPTS_REMAINING=$ATTEMPTS_START
+        while true; do
+            ATTEMPTS_REMAINING=$(( $ATTEMPTS_REMAINING - 1 ))
+            if [ "$ATTEMPTS_REMAINING" -eq "0" ]; then
+                echo "Breaking." 2>&1
+                break
+            fi
+            apt-get build-dep -y $pkg 2>&1 && break
+        done
+        if [ "$ATTEMPTS_REMAINING" -eq "0" ]; then
+            echo "Failed do download dependencies for $pkg." >&2
+            exit 1
+        fi
+
+        echo -n "Success after " >&2
+        echo -n $(( $ATTEMPTS_START - $ATTEMPTS_REMAINING )) >&2
+        echo "  attempts." >&2
+
         apt-get source $pkg 2>&1
         cd *
 
