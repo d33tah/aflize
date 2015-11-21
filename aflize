@@ -10,20 +10,14 @@
 set -e
 
 if [ "$#" = "0" ]; then
-
-        if [ ! -f ~/packages.list ]; then
-            # We skip the first 6 lines because of a quite lengthy header.
-            dpkg -l | tail -n +6 | awk '{ print $2 }' > ~/packages.list
-        fi
-
-        PKGS=`cat ~/packages.list`
-else
-        PKGS=$@
+    echo "ERROR: Running 'aflize' without parameters is not supported" 2>&1
+    echo "anymore. Let me know if you need this feature." 2>&1
+    exit 1
 fi
 
 apt-get update
 
-for pkg in $PKGS; do
+for pkg in $@; do
 
         rm -rf ~/pkg
         mkdir ~/pkg
