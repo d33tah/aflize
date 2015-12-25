@@ -8,7 +8,7 @@ RUN echo 'deb-src http://httpredir.debian.org/debian sid main' >> /etc/apt/sourc
 
 RUN echo 'APT::Install-Suggests "0";' > /etc/apt/apt.conf.d/no-suggests
 RUN echo 'APT::Install-Recommends "0";' > /etc/apt/apt.conf.d/no-recommends
-RUN apt-get update && apt-get install build-essential gcc g++ wget tar gzip make ca-certificates vim -y
+RUN apt-get update && apt-get install build-essential gcc g++ wget tar gzip make ca-certificates vim procps -y
 RUN wget 'http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz' -O- | tar zxvf - && cd afl-* && make PREFIX=/usr install
 
 # Make sure afl-gcc will be run. This forces us to set AFL_CC and AFL_CXX or
