@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source ~/.bashrc
+source /etc/profile.d/afl-sh-profile
 
 set -e
 

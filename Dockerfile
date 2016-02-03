@@ -35,7 +35,7 @@ RUN mkdir ~/pkg ~/pkgs ~/logs
 RUN apt-get update && apt-get install apt-file -y && apt-file update
 
 # install "exploitable" GDB script
-RUN apt-get update && apt-get install gdb python -y
+RUN apt-get update && apt-get install gdb python-setuptools -y
 RUN wget -O- 'https://github.com/jfoote/exploitable/archive/master.tar.gz' | tar zxvf - && cd exploitable-master && python setup.py install
 
 RUN mkdir ~/fuzz-results ~/pkgs-coverage
