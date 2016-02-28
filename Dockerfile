@@ -1,4 +1,5 @@
-# you can try replacing "sid" with sid.
+# you can try replacing "debian:sid" with "debian:testing" or "ubuntu:latest".
+# For Ubuntu, replace -J with -j in the "aflize" script.
 FROM debian:sid
 RUN echo 'deb-src http://httpredir.debian.org/debian sid main' >> /etc/apt/sources.list
 
