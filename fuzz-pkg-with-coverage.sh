@@ -10,7 +10,7 @@ aflize $1
 dpkg -i ~/pkgs/*.deb
 apt-get -f install -y
 
-ASAN_OPTIONS=abort_on_error=1 timeout \
+ASAN_OPTIONS=abort_on_error=1,symbolize=0 timeout \
     15s \
     afl-fuzz \
         -i ~/testcases \
