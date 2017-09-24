@@ -60,7 +60,7 @@ for pkg in $@; do
         echo "  attempts." >&2
 
         apt-get source $pkg 2>&1
-        cd *
+        cd */
 
         ( dpkg-buildpackage -uc -us -Jauto 2>&1 | \
             tee ~/logs/${pkg}.txt ) || ( echo $pkg >> ~/failed; exit 1 )
