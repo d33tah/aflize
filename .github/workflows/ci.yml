@@ -1,0 +1,58 @@
+name: CI
+
+# Build the afl-sid image and exercise the whole pipeline end to end:
+# aflize a real Debian package, confirm an instrumented .deb is produced, and
+# confirm that afl-fuzz can actually drive the instrumented binary.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build the afl-sid image
+        run: docker build -t aflize .
+
+      - name: Smoke test - aflize a package and fuzz it
+        run: |
+          docker run --rm \
+            -e AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1 \
+            aflize bash -lc '
+              set -e
+
+              # Rebuild GNU hello with afl-gcc + ASAN.
+              aflize hello
+
+              # The whole point of the tool: a ready-to-install instrumented .deb.
+              echo "::group::resulting package"
+              ls -l ~/pkgs/hello_*.deb
+              echo "::endgroup::"
+
+              dpkg -i ~/pkgs/hello_*.deb >/dev/null
+
+              # Confirm afl-fuzz can actually drive the instrumented binary. A
+              # non-instrumented binary cannot bring up a fork server, so these
+              # two messages are the real proof that aflize did its job.
+              mkdir -p /tmp/in /tmp/out
+              printf x > /tmp/in/seed
+              ASAN_OPTIONS=detect_leaks=0,abort_on_error=1,symbolize=0 \
+                timeout 30 afl-fuzz -m none -i /tmp/in -o /tmp/out hello \
+                  >/tmp/afl.log 2>&1 || true
+
+              echo "::group::afl-fuzz output"
+              cat /tmp/afl.log
+              echo "::endgroup::"
+
+              grep -q "fork server is up" /tmp/afl.log \
+                || { echo "FAIL: fork server never came up - binary not instrumented"; exit 1; }
+              grep -q "Entering queue cycle" /tmp/afl.log \
+                || { echo "FAIL: fuzzing loop never started"; exit 1; }
+
+              echo "OK: aflize produced an instrumented .deb and afl-fuzz drove it"
+            '
