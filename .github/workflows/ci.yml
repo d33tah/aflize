@@ -2,7 +2,8 @@ name: CI
 
 # Build the afl-sid image and exercise the whole pipeline end to end:
 # aflize a real Debian package, confirm an instrumented .deb is produced, and
-# confirm that afl-fuzz can actually drive the instrumented binary.
+# confirm that afl-fuzz can actually drive the instrumented binary and use its
+# coverage feedback to discover new paths.
 
 on:
   push:
@@ -26,33 +27,48 @@ jobs:
             aflize bash -lc '
               set -e
 
-              # Rebuild GNU hello with afl-gcc + ASAN.
-              aflize hello
+              # Rebuild GNU bc with afl-gcc + ASAN. bc parses its input file, so
+              # the fuzzer can actually grow coverage (unlike e.g. hello).
+              aflize bc
 
               # The whole point of the tool: a ready-to-install instrumented .deb.
               echo "::group::resulting package"
-              ls -l ~/pkgs/hello_*.deb
+              ls -l ~/pkgs/bc_*.deb
               echo "::endgroup::"
 
-              dpkg -i ~/pkgs/hello_*.deb >/dev/null
+              dpkg -i ~/pkgs/bc_*.deb >/dev/null
 
-              # Confirm afl-fuzz can actually drive the instrumented binary. A
-              # non-instrumented binary cannot bring up a fork server, so these
-              # two messages are the real proof that aflize did its job.
+              # Fuzz the instrumented binary for a short while.
               mkdir -p /tmp/in /tmp/out
-              printf x > /tmp/in/seed
+              printf "1+1\n" > /tmp/in/seed
               ASAN_OPTIONS=detect_leaks=0,abort_on_error=1,symbolize=0 \
-                timeout 30 afl-fuzz -m none -i /tmp/in -o /tmp/out hello \
+                timeout 45 afl-fuzz -m none -i /tmp/in -o /tmp/out bc @@ \
                   >/tmp/afl.log 2>&1 || true
 
               echo "::group::afl-fuzz output"
               cat /tmp/afl.log
               echo "::endgroup::"
 
+              echo "::group::fuzzer_stats"
+              cat /tmp/out/fuzzer_stats
+              echo "::endgroup::"
+
+              # 1. A non-instrumented binary cannot bring up a fork server, so
+              #    this proves aflize actually instrumented the binary.
               grep -q "fork server is up" /tmp/afl.log \
                 || { echo "FAIL: fork server never came up - binary not instrumented"; exit 1; }
+
+              # 2. The fuzzing loop has to actually start.
               grep -q "Entering queue cycle" /tmp/afl.log \
                 || { echo "FAIL: fuzzing loop never started"; exit 1; }
 
-              echo "OK: aflize produced an instrumented .deb and afl-fuzz drove it"
+              # 3. The fuzzer must discover more than the single seed path. This
+              #    is the real proof that the coverage feedback works: AFL turned
+              #    one seed into many paths by following the instrumentation.
+              paths=$(awk -F": *" "/^paths_total/ {print \$2}" /tmp/out/fuzzer_stats)
+              echo "paths_total = ${paths:-<missing>}"
+              [ "${paths:-0}" -gt 1 ] \
+                || { echo "FAIL: expected more than one discovered path, got ${paths:-0}"; exit 1; }
+
+              echo "OK: aflize built an instrumented bc and afl-fuzz discovered ${paths} paths"
             '
